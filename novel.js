@@ -78,10 +78,6 @@ export class Novel {
         }
     }
     
-    getChoices () {
-        return this.scenes[this.scene].choices;
-    }
-    
     forceMove (id) {
         this.scene = id;
     }
@@ -90,6 +86,10 @@ export class Novel {
         const choices = this.scenes[this.scene].choices;
         const choicesArray = Object.keys(choices);
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
+    }
+            
+    getChoices () {
+        return this.scenes[this.scene].choices;
     }
     
     getState () {
