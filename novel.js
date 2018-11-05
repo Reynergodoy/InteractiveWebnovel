@@ -37,12 +37,17 @@ export class Novel {
         }
         if (canPass) {
             this.scene = id;
+            if (properties.rewards) {
+                // not yet implemented
+            }
             return true;
         } else {
             if (properties.bypass) {
-                
+                // not yet implemented
+                return false;
             } else {
-                
+                // not yet implemented
+                return false;
             }
         }
     }
