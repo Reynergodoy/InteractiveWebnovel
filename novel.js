@@ -68,6 +68,16 @@ export class Novel {
         }
     }
     
+    move (id) {
+        const movability = this.canMove(id);
+        if (movability) {
+            this.scene = id;
+            // give reward if any
+        } else {
+            return 0;
+        }
+    }
+    
     getChoices () {
         return this.scenes[this.scene].choices;
     }
