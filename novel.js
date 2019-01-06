@@ -116,7 +116,7 @@ export class Novel {
         if (!valid) return false;
         
         for (const scene in scenes) {
-            const { requirements, choices } = scene;
+            const { requirements, choices } = scenes[scene];
             if (typeof requirements === 'undefined' || typeof choices === 'undefined') {
                 valid = false;
                 break;
@@ -130,7 +130,7 @@ export class Novel {
                 }
             }
             for (const requirement in requirements) {
-                const type = typeof requirement;
+                const type = typeof requirements[requirement];
                 if (type !== 'string' && type !== 'integer') {
                     valid = false;
                     break;
