@@ -140,6 +140,10 @@ export class Novel {
         }
         return valid;
     }
+    
+    cleanItem (item) {
+        delete this.items[item];
+    }
             
     getChoices () {
         return this.scenes[this.scene].choices;
