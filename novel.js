@@ -27,7 +27,7 @@ export class Novel {
         let canPass = true;
         let hasChoice = false;
         
-        for (let i = 0; i < choicesLen; i++) {
+        for (let i = 0; i < choicesLen; i++) { // check if there is actually this choice
             if (choices[i] === id) {
                 hasChoice = true;
                 break;
@@ -38,7 +38,7 @@ export class Novel {
         
         if (!hasChoice) return false;
         
-        for (let i = 0; i < reqLen; i++) {
+        for (let i = 0; i < reqLen; i++) { // check for any requirement to enter the scene
             const item = reqList[i];
             if (this.items[item] === undefined) {
                 canPass = false;
@@ -51,13 +51,13 @@ export class Novel {
             }
         }
         
-        if (canPass) {
-            if (properties.rewards) {
+        if (canPass) { // check if can pass
+            if (properties.rewards) { // gives rewards if any
                 // not yet implemented
             }
             return true;
         } else {
-            if (properties.bypass) {
+            if (properties.bypass) { // check if the user has any bypass item
                 // not yet implemented
                 return false;
             } else {
@@ -101,14 +101,38 @@ export class Novel {
         const items = this.items;
         const scenes = this.scenes;
         let valid = true;
+        
+        // checks for any invalid item
         for (const item in items) {
             const type = typeof item;
-            if (type != 'string' && type != 'integer') {
+            if (type !== 'string' && type !== 'integer') { // check if its string or integer
                 valid = false;
                 break;
             } else {
                 continue;
             }
+        }
+        
+        if (!valid) return false;
+        
+        for (const scene in scenes) {
+            const { requirements, choices } = scene;
+            const cLen = choices.length;
+            for (let i = 0; i < cLen; i++) {
+                const type = typeof choices[i];
+                if (type !== 'string' && type !== 'integer') {
+                    valid = false;
+                    break;
+                }
+            }
+            for (const requirement in requirements) {
+                const type = typeof requirement;
+                if (type !== 'string' && type !== 'integer') {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid === false) break;
         }
         return valid;
     }
