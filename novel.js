@@ -97,13 +97,14 @@ export class Novel {
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
     }
     
-    novelValidity () { // add error messages
+    novelValidity () {
         const { scenes, scene } = this;
         const sceneType = typeof scene;
         
         if (sceneType !== 'string' && sceneType !== 'number') return false; // checks for the current scene id name
         
         let valid = true;
+        let error = `Scene ${scene} `;
         
         for (const scene in scenes) { // checks for every scene in scenes
             const { requirements, choices, description, choicesDescriptions } = scenes[scene];
@@ -113,32 +114,40 @@ export class Novel {
                 typeof description === 'undefined'  ||
                 typeof choicesDescriptions === 'undefined') { // check if any of the fields are undefined
                 valid = false;
+                error += 'has one or more of its 4 properties undefined';
                 break;
             }
             
-            if (typeof description !== 'string') return false;
+            if (!valid) return [false, error];
+            
+            if (typeof description !== 'string') return [false, error + 'description is undefined'];
             
             const cLen = choices.length;
             
-            if (choicesDescriptions.length !== cLen) return false;
+            if (choicesDescriptions.length !== cLen) return [false, error + 'choices description length is different than choices length'];
             
             for (let i = 0; i < cLen; i++) {
                 const choiceType = typeof choices[i];
                 const descType = typeof choicesDescriptions[i];
                 if (choiceType !== 'string' && choiceType !== 'number') { // check choices id
                     valid = false;
+                    error += `choice number ${i+1} is not a string or number`;
                     break;
                 }
                 if (descType !== 'string' && choiceType !== 'number') { // check choices description
                     valid = false;
+                    error += `choice description number ${i+1} is not a string or number`;
                     break;
                 }
             }
+            
+            if (!valid) return [false, error];
             
             for (const requirement in requirements) { // check scene requirements
                 const type = typeof requirements[requirement];
                 if (type !== 'string' && type !== 'number') {
                     valid = false;
+                    error += `requirement ${requirement} value is not a string or a number`;
                     break;
                 }
             }
@@ -146,29 +155,29 @@ export class Novel {
             if (valid === false) break;
             
         }
-        return valid;
+        return [valid, error];
     }
     
     checkValidity () { // checks for the entire instance validity
         const { items, scenes } = this;
         let valid = true;
+        let error = `Item `
         
         // checks for any invalid item
         for (const item in items) {
-            const type = typeof item;
+            const type = typeof items[item];
             if (type !== 'string' && type !== 'number') { // check if its string or integer
                 valid = false;
+                error += `${item} value is not a string or a number`;
                 break;
             } else {
                 continue;
             }
         }
         
-        if (!valid) return false;
+        if (!valid) return [false, error];
         
-        if (!this.novelValidity()) return false;
-        
-        return valid;
+        return this.novelValidity();
     }
     
     cleanItem (item) {
