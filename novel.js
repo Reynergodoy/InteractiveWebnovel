@@ -117,6 +117,10 @@ export class Novel {
         
         for (const scene in scenes) {
             const { requirements, choices } = scene;
+            if (typeof requirements === 'undefined' || typeof choices === 'undefined') {
+                valid = false;
+                break;
+            }
             const cLen = choices.length;
             for (let i = 0; i < cLen; i++) {
                 const type = typeof choices[i];
