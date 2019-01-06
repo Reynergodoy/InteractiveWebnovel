@@ -105,7 +105,7 @@ export class Novel {
         // checks for any invalid item
         for (const item in items) {
             const type = typeof item;
-            if (type !== 'string' && type !== 'integer') { // check if its string or integer
+            if (type !== 'string' && type !== 'number') { // check if its string or integer
                 valid = false;
                 break;
             } else {
@@ -124,14 +124,14 @@ export class Novel {
             const cLen = choices.length;
             for (let i = 0; i < cLen; i++) {
                 const type = typeof choices[i];
-                if (type !== 'string' && type !== 'integer') {
+                if (type !== 'string' && type !== 'number') {
                     valid = false;
                     break;
                 }
             }
             for (const requirement in requirements) {
                 const type = typeof requirements[requirement];
-                if (type !== 'string' && type !== 'integer') {
+                if (type !== 'string' && type !== 'number') {
                     valid = false;
                     break;
                 }
