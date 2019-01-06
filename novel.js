@@ -52,7 +52,6 @@ export class Novel {
         }
         
         if (canPass) {
-            this.scene = id;
             if (properties.rewards) {
                 // not yet implemented
             }
@@ -64,6 +63,16 @@ export class Novel {
             } else {
                 // not yet implemented
                 return false;
+            }
+        }
+    }
+    
+    allMoves () {
+        const { choices } = this.scene;
+        const list = [];
+        for (const choice in choices) {
+            if (this.canMove(choice)) {
+                list.push(choice);
             }
         }
     }
@@ -86,6 +95,22 @@ export class Novel {
         const choices = this.scenes[this.scene].choices;
         const choicesArray = Object.keys(choices);
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
+    }
+    
+    checkValidity () {
+        const items = this.items;
+        const scenes = this.scenes;
+        let valid = true;
+        for (const item in items) {
+            const type = typeof item;
+            if (type != 'string' && type != 'integer') {
+                valid = false;
+                break;
+            } else {
+                continue;
+            }
+        }
+        return valid;
     }
             
     getChoices () {
