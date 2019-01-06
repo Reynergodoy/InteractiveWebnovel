@@ -96,24 +96,9 @@ export class Novel {
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
     }
     
-    checkValidity () {
-        const items = this.items;
+    novelValidity () {
         const scenes = this.scenes;
         let valid = true;
-        
-        // checks for any invalid item
-        for (const item in items) {
-            const type = typeof item;
-            if (type !== 'string' && type !== 'number') { // check if its string or integer
-                valid = false;
-                break;
-            } else {
-                continue;
-            }
-        }
-        
-        if (!valid) return false;
-        
         for (const scene in scenes) {
             const { requirements, choices } = scenes[scene];
             if (typeof requirements === 'undefined' || typeof choices === 'undefined') {
@@ -137,6 +122,29 @@ export class Novel {
             }
             if (valid === false) break;
         }
+        return valid;
+    }
+    
+    checkValidity () {
+        const items = this.items;
+        const scenes = this.scenes;
+        let valid = true;
+        
+        // checks for any invalid item
+        for (const item in items) {
+            const type = typeof item;
+            if (type !== 'string' && type !== 'number') { // check if its string or integer
+                valid = false;
+                break;
+            } else {
+                continue;
+            }
+        }
+        
+        if (!valid) return false;
+        
+        if (!this.novelValidity()) return false;
+        
         return valid;
     }
     
