@@ -107,24 +107,30 @@ export class Novel {
         let error = `Scene ${scene} `;
         
         for (const scene in scenes) { // checks for every scene in scenes
-            const { requirements, choices, description, choicesDescriptions } = scenes[scene];
+            const sceneObj = scenes[scene];
             
-            if (typeof requirements === 'undefined' ||
-                typeof choices === 'undefined'      ||
-                typeof description === 'undefined'  ||
-                typeof choicesDescriptions === 'undefined') { // check if any of the fields are undefined
-                valid = false;
-                error += 'has one or more of its 4 properties undefined';
-                break;
+            for (const prop in sceneObj) { // checks if it only has valid properties
+                if (prop !== 'requirements' && prop !== 'choices' && prop !== 'description' && prop !== 'choicesDescription') {
+                    valid = false;
+                    error += `has an invalid property named ${prop}`;
+                    break;
+                }
             }
-            
             if (!valid) break;
             
-            if (typeof description !== 'string') {
+            const { requirements, choices, description, choicesDescriptions } = sceneObj;
+            
+            if (typeof requirements !== 'object'        ||
+                typeof choices !== 'object'             ||
+                typeof description !== 'string'         ||
+                typeof choicesDescriptions !== 'object' ||
+                !Array.isArray(choices)                 ||
+                !Array.isArray(choicesDescriptions)) { // check if any of the fields are undefined
                 valid = false;
-                error += 'description is undefined';
+                error += 'has one or more of its 4 properties undefined or in the wrong type';
                 break;
             }
+            if (!valid) break;
             
             const cLen = choices.length;
             
