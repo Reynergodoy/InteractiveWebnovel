@@ -142,7 +142,7 @@ export class Novel {
     }
     
     getState () {
-        return { scene: this.scene, scenes: this.scenes, items = this.items };
+        return { scene: this.scene, scenes: this.scenes, items: this.items };
     }
     
     getNovel () {
