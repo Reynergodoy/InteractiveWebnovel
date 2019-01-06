@@ -96,32 +96,45 @@ export class Novel {
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
     }
     
-    novelValidity () {
+    novelValidity () { // add error messages
         const { scenes, scene } = this;
         const sceneType = typeof scene;
         
-        if (sceneType !== 'string' && sceneType !== 'number') return false;
+        if (sceneType !== 'string' && sceneType !== 'number') return false; // checks for the current scene id name
         
         let valid = true;
         
-        for (const scene in scenes) {
-            const { requirements, choices } = scenes[scene];
+        for (const scene in scenes) { // checks for every scene in scenes
+            const { requirements, choices, description, choicesDescriptions } = scenes[scene];
             
-            if (typeof requirements === 'undefined' || typeof choices === 'undefined') {
+            if (typeof requirements === 'undefined' ||
+                typeof choices === 'undefined'      ||
+                typeof description === 'undefined'  ||
+                typeof choicesDescriptions === 'undefined') { // check if any of the fields are undefined
                 valid = false;
                 break;
             }
             
+            if (typeof description !== 'string') return false;
+            
             const cLen = choices.length;
+            
+            if (choicesDescriptions.length !== cLen) return false;
+            
             for (let i = 0; i < cLen; i++) {
-                const type = typeof choices[i];
-                if (type !== 'string' && type !== 'number') {
+                const choiceType = typeof choices[i];
+                const descType = typeof choicesDescriptions[i];
+                if (choiceType !== 'string' && choiceType !== 'number') { // check choices id
+                    valid = false;
+                    break;
+                }
+                if (descType !== 'string' && choiceType !== 'number') { // check choices description
                     valid = false;
                     break;
                 }
             }
             
-            for (const requirement in requirements) {
+            for (const requirement in requirements) { // check scene requirements
                 const type = typeof requirements[requirement];
                 if (type !== 'string' && type !== 'number') {
                     valid = false;
