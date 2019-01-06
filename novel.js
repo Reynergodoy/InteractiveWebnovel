@@ -72,6 +72,7 @@ export class Novel {
                 list.push(choice);
             }
         }
+        return list;
     }
     
     move (id) {
@@ -148,7 +149,7 @@ export class Novel {
         return valid;
     }
     
-    checkValidity () {
+    checkValidity () { // checks for the entire instance validity
         const { items, scenes } = this;
         let valid = true;
         
