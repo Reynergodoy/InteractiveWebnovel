@@ -52,9 +52,6 @@ export class Novel {
         }
         
         if (canPass) { // check if can pass
-            if (properties.rewards) { // gives rewards if any
-                // not yet implemented
-            }
             return true;
         } else {
             if (properties.bypass) { // check if the user has any bypass item
@@ -81,9 +78,11 @@ export class Novel {
         const movability = this.canMove(id);
         if (movability) {
             this.scene = id;
-            // give reward if any
+            if (this.scene.properties.rewards) { // gives rewards if any
+                // not yet implemented
+            }
         } else {
-            return 0;
+            return false;
         }
     }
     
