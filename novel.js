@@ -118,13 +118,21 @@ export class Novel {
                 break;
             }
             
-            if (!valid) return [false, error];
+            if (!valid) break;
             
-            if (typeof description !== 'string') return [false, error + 'description is undefined'];
+            if (typeof description !== 'string') {
+                valid = false;
+                error += 'description is undefined';
+                break;
+            }
             
             const cLen = choices.length;
             
-            if (choicesDescriptions.length !== cLen) return [false, error + 'choices description length is different than choices length'];
+            if (choicesDescriptions.length !== cLen) {
+                valid = false;
+                error += 'choices description length is different than choices length';
+                break;
+            }
             
             for (let i = 0; i < cLen; i++) {
                 const choiceType = typeof choices[i];
@@ -141,7 +149,7 @@ export class Novel {
                 }
             }
             
-            if (!valid) return [false, error];
+            if (!valid) break;
             
             for (const requirement in requirements) { // check scene requirements
                 const type = typeof requirements[requirement];
@@ -152,7 +160,7 @@ export class Novel {
                 }
             }
             
-            if (valid === false) break;
+            if (!valid) break;
             
         }
         return [valid, error];
