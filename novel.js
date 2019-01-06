@@ -97,14 +97,21 @@ export class Novel {
     }
     
     novelValidity () {
-        const scenes = this.scenes;
+        const { scenes, scene } = this;
+        const sceneType = typeof scene;
+        
+        if (sceneType !== 'string' && sceneType !== 'number') return false;
+        
         let valid = true;
+        
         for (const scene in scenes) {
             const { requirements, choices } = scenes[scene];
+            
             if (typeof requirements === 'undefined' || typeof choices === 'undefined') {
                 valid = false;
                 break;
             }
+            
             const cLen = choices.length;
             for (let i = 0; i < cLen; i++) {
                 const type = typeof choices[i];
@@ -113,6 +120,7 @@ export class Novel {
                     break;
                 }
             }
+            
             for (const requirement in requirements) {
                 const type = typeof requirements[requirement];
                 if (type !== 'string' && type !== 'number') {
@@ -120,14 +128,15 @@ export class Novel {
                     break;
                 }
             }
+            
             if (valid === false) break;
+            
         }
         return valid;
     }
     
     checkValidity () {
-        const items = this.items;
-        const scenes = this.scenes;
+        const { items, scenes } = this;
         let valid = true;
         
         // checks for any invalid item
@@ -161,6 +170,6 @@ export class Novel {
     }
     
     getNovel () {
-        return this.scenes;
+        return {scene: this.scene, scenes: this.scenes};
     }
 }
