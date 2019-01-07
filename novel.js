@@ -101,18 +101,18 @@ export class Novel {
         const { scenes, scene } = this;
         const sceneType = typeof scene;
         
-        if (sceneType !== 'string' && sceneType !== 'number') return false; // checks for the current scene id name
+        if (sceneType !== 'string' && sceneType !== 'number') return [false, `Scene ${scene} id is not a string or number`]; // checks for the current scene id name
         
         let valid = true;
-        let error = `Scene ${scene} `;
+        let error = `Scene `;
         
-        for (const scene in scenes) { // checks for every scene in scenes
-            const sceneObj = scenes[scene];
+        for (const _scene in scenes) { // checks for every scene in scenes
+            const sceneObj = scenes[_scene];
             
             for (const prop in sceneObj) { // checks if it only has valid properties
                 if (prop !== 'requirements' && prop !== 'choices' && prop !== 'description' && prop !== 'choicesDescription') {
                     valid = false;
-                    error += `has an invalid property named ${prop}`;
+                    error += `${_scene} has an invalid property named ${prop}`;
                     break;
                 }
             }
@@ -127,7 +127,7 @@ export class Novel {
                 !Array.isArray(choices)                 ||
                 !Array.isArray(choicesDescriptions)) { // check if any of the fields are undefined
                 valid = false;
-                error += 'has one or more of its 4 properties undefined or in the wrong type';
+                error += `${_scene} has one or more of its 4 properties undefined or in the wrong type`;
                 break;
             }
             if (!valid) break;
@@ -136,7 +136,7 @@ export class Novel {
             
             if (choicesDescriptions.length !== cLen) {
                 valid = false;
-                error += 'choices description length is different than choices length';
+                error += `${_scene} choices description length is different than choices length`;
                 break;
             }
             
@@ -145,12 +145,12 @@ export class Novel {
                 const descType = typeof choicesDescriptions[i];
                 if (choiceType !== 'string' && choiceType !== 'number') { // check choices id
                     valid = false;
-                    error += `choice number ${i+1} is not a string or number`;
+                    error += `${_scene} choice number ${i+1} is not a string or number`;
                     break;
                 }
                 if (descType !== 'string' && choiceType !== 'number') { // check choices description
                     valid = false;
-                    error += `choice description number ${i+1} is not a string or number`;
+                    error += `${_scene} choice description number ${i+1} is not a string or number`;
                     break;
                 }
             }
@@ -161,7 +161,7 @@ export class Novel {
                 const type = typeof requirements[requirement];
                 if (type !== 'string' && type !== 'number') {
                     valid = false;
-                    error += `requirement ${requirement} value is not a string or a number`;
+                    error += `${_scene} requirement ${requirement} value is not a string or a number`;
                     break;
                 }
             }
