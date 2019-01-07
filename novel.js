@@ -202,11 +202,13 @@ export class Novel {
         return this.scenes[this.scene].choices;
     }
     
-    getState () {
-        return { scene: this.scene, scenes: this.scenes, items: this.items };
-    }
-    
-    getNovel () {
-        return {scene: this.scene, scenes: this.scenes};
+    getProperties (props) {
+        const propsLen = props.length;
+        const res = {};
+        for (let i = 0; i < propsLen; i++) {
+            const prop = this[props[i]];
+            if (prop) res[props[i]] = prop;
+        }
+        return res;
     }
 }
