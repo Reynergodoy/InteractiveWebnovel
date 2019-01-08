@@ -104,7 +104,7 @@ export class Novel {
         if (sceneType !== 'string' && sceneType !== 'number') return [false, `Scene ${scene} id is not a string or number`]; // checks for the current scene id name
         
         let valid = true;
-        let error = `Scene `;
+        let error = `ERROR: Scene `;
         
         for (const _scene in scenes) { // checks for every scene in scenes
             const sceneObj = scenes[_scene];
@@ -154,13 +154,17 @@ export class Novel {
             if (!valid) break;
             
         }
-        return [valid, error];
+        if (!valid) {
+            return [valid, error];
+        } else {
+            return [true, 'SUCCESSFUL']
+        }
     }
     
     checkValidity () { // checks for the entire instance validity
         const { items, scenes } = this;
         let valid = true;
-        let error = `Item `
+        let error = `ERROR: Item `
         
         // checks for any invalid item
         for (const item in items) {
