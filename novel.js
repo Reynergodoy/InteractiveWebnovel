@@ -110,7 +110,7 @@ export class Novel {
             const sceneObj = scenes[_scene];
             
             for (const prop in sceneObj) { // checks if it only has valid properties
-                if (prop !== 'requirements' && prop !== 'choices' && prop !== 'description' && prop !== 'choicesDescription') {
+                if (prop !== 'requirements' && prop !== 'choices' && prop !== 'description') {
                     valid = false;
                     error += `${_scene} has an invalid property named ${prop}`;
                     break;
@@ -118,43 +118,28 @@ export class Novel {
             }
             if (!valid) break;
             
-            const { requirements, choices, description, choicesDescriptions } = sceneObj;
+            const { requirements, choices, description } = sceneObj;
             
-            if (typeof requirements !== 'object'        ||
-                typeof choices !== 'object'             ||
-                typeof description !== 'string'         ||
-                typeof choicesDescriptions !== 'object' ||
-                !Array.isArray(choices)                 ||
-                !Array.isArray(choicesDescriptions)) { // check if any of the fields are undefined
+            if (typeof requirements !== 'object' ||
+                typeof choices !== 'object'      ||
+                typeof description !== 'string'  ||
+                Array.isArray(choices)           ||
+                choices === null) { // check if any of the fields are undefined
                 valid = false;
                 error += `${_scene} has one or more of its 4 properties undefined or in the wrong type`;
                 break;
             }
             if (!valid) break;
             
-            const cLen = choices.length;
-            
-            if (choicesDescriptions.length !== cLen) {
-                valid = false;
-                error += `${_scene} choices description length is different than choices length`;
-                break;
-            }
-            
-            for (let i = 0; i < cLen; i++) {
-                const choiceType = typeof choices[i];
-                const descType = typeof choicesDescriptions[i];
+            for (const choice in choices) {
+                const choiceType = typeof choices[choice];
                 if (choiceType !== 'string' && choiceType !== 'number') { // check choices id
                     valid = false;
                     error += `${_scene} choice number ${i+1} is not a string or number`;
                     break;
                 }
-                if (descType !== 'string' && choiceType !== 'number') { // check choices description
-                    valid = false;
-                    error += `${_scene} choice description number ${i+1} is not a string or number`;
-                    break;
-                }
             }
-            
+                  
             if (!valid) break;
             
             for (const requirement in requirements) { // check scene requirements
