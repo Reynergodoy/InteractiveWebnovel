@@ -64,7 +64,7 @@ export class Novel {
         }
     }
     
-    allMoves () {
+    validMoves () { // gets all valid moves
         const { choices } = this.scene;
         const list = [];
         for (const choice in choices) {
@@ -75,9 +75,8 @@ export class Novel {
         return list;
     }
     
-    move (id) {
-        const movability = this.canMove(id);
-        if (movability) {
+    move (id) { // moves but first tests if can move
+        if (this.canMove(id)) {
             this.scene = id;
             if (this.scene.properties.rewards) { // gives rewards if any
                 // not yet implemented
@@ -87,11 +86,11 @@ export class Novel {
         }
     }
     
-    forceMove (id) {
+    forceMove (id) { // forces a move without any checks or giving any rewards
         this.scene = id;
     }
     
-    moveRandom () {
+    moveRandom () { // moves randomly
         const choices = this.scenes[this.scene].choices;
         const choicesArray = Object.keys(choices);
         this.scene = choicesArray[Math.floor(Math.random() * choices.length)];
@@ -183,15 +182,15 @@ export class Novel {
         return this.novelValidity();
     }
     
-    cleanItem (item) {
+    cleanItem (item) { // clean items
         delete this.items[item];
     }
             
-    getChoices () {
+    getChoices () { // get ALL choices
         return this.scenes[this.scene].choices;
     }
     
-    getProperties (props) {
+    getProperties (props) { // get constructor properties
         const propsLen = props.length;
         const res = {};
         for (let i = 0; i < propsLen; i++) {
