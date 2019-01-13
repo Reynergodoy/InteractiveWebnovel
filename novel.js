@@ -195,7 +195,7 @@ export class Novel {
         const res = {};
         for (let i = 0; i < propsLen; i++) {
             const prop = this[props[i]];
-            if (prop) res[props[i]] = prop;
+            if (typeof prop !== 'undefined') res[props[i]] = prop;
         }
         return res;
     }
