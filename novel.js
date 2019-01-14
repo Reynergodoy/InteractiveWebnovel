@@ -78,7 +78,7 @@ export class Novel {
     move (id) { // moves but first tests if can move
         if (this.canMove(id)) {
             this.scene = id;
-            if (this.scene.properties.rewards) { // gives rewards if any
+            if (this.scenes[id].rewards) { // gives rewards if any
                 // not yet implemented
             }
         } else {
