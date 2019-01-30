@@ -65,7 +65,7 @@ class Novel {
     }
     
     validMoves () { // gets all valid moves
-        const { choices } = this.scene;
+        const { choices } = this.scenes[this.scene];
         const list = [];
         for (const choice in choices) {
             if (this.canMove(choice)) {
