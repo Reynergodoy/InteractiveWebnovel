@@ -45,7 +45,7 @@
       document.addEventListener('click', function(e) { if (e.target.type === 'submit') move(e.target.id); });
       
       display.textContent = novel.scenes[novel.scene].description;
-      createButtons(novel.validMoves(), novel.scene.choices);
+      createButtons(novel.validMoves(), novel.scenes[this.scene].choices);
     </script>
   </body>
 </html>
