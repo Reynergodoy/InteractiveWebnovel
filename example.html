@@ -19,11 +19,12 @@
       const display = document.getElementById('display');
       const buttons = document.getElementById('buttons');
       
-      function move () {
+      function move (id) {
         const choices = novel.scene.choices;
         novel.move(id);
         deleteButtons();
         createButtons(novel.validMoves(), choices);
+        display.textContent = novel.scenes[id].description;
       }
       
       function deleteButtons () {
@@ -39,7 +40,12 @@
           button.textContent = choices[id];
         }
         buttons.appendChild(fragment);
-      }   
+      }
+      
+      document.addEventListener('click', function(e) { if (e.target.type === 'submit') move(e.target.id); });
+      
+      display.textContent = novel.scenes[novel.scene].description;
+      createButtons(novel.validMoves(), novel.scene.choices);
     </script>
   </body>
 </html>
