@@ -20,7 +20,7 @@
       const buttons = document.getElementById('buttons');
       
       function move (id) {
-        const choices = novel.scene.choices;
+        const choices = novel.scenes[this.scene].choices;
         novel.move(id);
         deleteButtons();
         createButtons(novel.validMoves(), choices);
