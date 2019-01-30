@@ -20,7 +20,7 @@
       const buttons = document.getElementById('buttons');
       
       function move (id) {
-        const choices = novel.scenes[this.scene].choices;
+        const choices = novel.scenes[novel.scene].choices;
         novel.move(id);
         deleteButtons();
         createButtons(novel.validMoves(), choices);
@@ -45,7 +45,7 @@
       document.addEventListener('click', function(e) { if (e.target.type === 'submit') move(e.target.id); });
       
       display.textContent = novel.scenes[novel.scene].description;
-      createButtons(novel.validMoves(), novel.scenes[this.scene].choices);
+      createButtons(novel.validMoves(), novel.scenes[novel.scene].choices);
     </script>
   </body>
 </html>
