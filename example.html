@@ -20,10 +20,9 @@
       const buttons = document.getElementById('buttons');
       
       function move (id) {
-        const choices = novel.scenes[novel.scene].choices;
         novel.move(id);
         deleteButtons();
-        createButtons(novel.validMoves(), choices);
+        createButtons(novel.validMoves(), novel.scenes[novel.scene].choices);
         display.textContent = novel.scenes[id].description;
       }
       
