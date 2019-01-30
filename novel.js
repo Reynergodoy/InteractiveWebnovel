@@ -37,6 +37,7 @@ class Novel {
         }
         
         if (!hasChoice) return false;
+        if (!requirements) return true;
         
         for (let i = 0; i < reqLen; i++) { // check for any requirement to enter the scene
             const item = reqList[i];
